@@ -1,18 +1,9 @@
-$(document).ready(function () {
-    document.getElementById('searchButton').addEventListener("click", searchButton);
-
-    function searchButton() {
-        let searchContent = document.getElementById('searchContent').value;
-
-        console.log(searchContent);
-    }
-
-});
-
 function initMap() {
+
+    //Setting map focus point on the USA
     var map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: -33.8688, lng: 151.2195},
-        zoom: 13
+        center: {lat: 39.5, lng: -98.35},
+        zoom: 4
     });
 
     var input = document.getElementById('searchContent');
@@ -23,6 +14,8 @@ function initMap() {
     // so that the autocomplete requests use the current map bounds for the
     // bounds option in the request.
     autocomplete.bindTo('bounds', map);
+
+
 
     // Set the data fields to return when the user selects a place.
     autocomplete.setFields(
@@ -37,7 +30,7 @@ function initMap() {
         anchorPoint: new google.maps.Point(0, -29)
     });
 
-    autocomplete.addListener('place_changed', function() {
+    autocomplete.addListener('place_changed', function () {
         infowindow.close();
         marker.setVisible(false);
         var place = autocomplete.getPlace();
@@ -72,19 +65,4 @@ function initMap() {
         infowindowContent.children['place-address'].textContent = address;
         infowindow.open(map, marker);
     });
-
-    // Sets a listener on a radio button to change the filter type on Places
-    // Autocomplete.
-    function setupClickListener(id, types) {
-        var radioButton = document.getElementById(id);
-        radioButton.addEventListener('click', function() {
-            autocomplete.setTypes(types);
-        });
-    }
-
-    document.getElementById('use-strict-bounds')
-        .addEventListener('click', function() {
-            console.log('Checkbox clicked! New state=' + this.checked);
-            autocomplete.setOptions({strictBounds: this.checked});
-        });
 }
